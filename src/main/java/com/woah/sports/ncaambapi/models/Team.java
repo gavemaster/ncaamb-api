@@ -29,10 +29,6 @@ public class Team {
     @Column(name = "location", length = 255)
     private String location;
 
-    @Basic
-    @Column(name = "conference")
-    private Integer conference;
-
 
     @Basic
     @Column(name = "team_abbr", length = 255)
@@ -63,6 +59,9 @@ public class Team {
     @Column(name = "ranks_link", length = 255)
     private String ranksLink;
 
+    @ManyToOne
+    @JoinColumn(name = "conference", referencedColumnName = "conference_id")
+    private Conference conference;
 
     @ManyToOne
     @JoinColumn(name = "team_college_id", referencedColumnName = "college_id", insertable = false, updatable = false)
@@ -76,5 +75,8 @@ public class Team {
 
     @OneToMany(mappedBy="awayTeam")
     private List<Event> awayGames = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team")
+    private List<PlayerBoxScore> playerBoxScores = new ArrayList<>();
 
 }

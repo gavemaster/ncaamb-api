@@ -1,5 +1,5 @@
 package com.woah.sports.ncaambapi.controllers;
-
+import java.text.SimpleDateFormat;
 import com.woah.sports.ncaambapi.dtos.EventInfo;
 import com.woah.sports.ncaambapi.services.EventService;
 import jakarta.ws.rs.NotFoundException;
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
+
+
 import java.util.Date;
-import java.sql.Timestamp;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/woahapi/v1/sports/ncaamb/events")
@@ -39,16 +41,16 @@ public class EventController {
     @GetMapping("/today")
     public ResponseEntity<List<EventInfo>> getTodayEvents(){
         try{
-            // Get the current time in milliseconds
-            long currentTimeMillis = System.currentTimeMillis();
-            // Create a java.util.Date object with the current time
-            Date currentDate = new Date(currentTimeMillis);
-            // Convert the java.util.Date to java.sql.Timestamp
-            Timestamp currentTimestamp = new Timestamp(currentDate.getTime());
 
+            Date currentDate = new Date();
 
-            List<EventInfo> todayEvents = eventService.getEventsByDate(currentTimestamp);
-
+// Format the date using SimpleDateFormat
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(currentDate);
+            System.out.println(formattedDate);
+            Date date = dateFormat.parse(formattedDate);
+            System.out.println(date);
+            List<EventInfo> todayEvents = eventService.getEventsByDate(date);
 
             return ResponseEntity.ok(todayEvents);
 

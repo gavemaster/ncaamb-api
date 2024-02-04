@@ -6,8 +6,10 @@ import com.woah.sports.ncaambapi.models.Event;
 import com.woah.sports.ncaambapi.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -34,9 +36,9 @@ public class EventService {
         }
     }
 
-    public List<EventInfo> getEventsByDate(Timestamp date){
+    public List<EventInfo> getEventsByDate(Date date){
         List<EventInfo> eventInfos = new ArrayList<>();
-        List<Event> events = eventRepo.findEventsByEventDateIs(date);
+        List<Event> events = eventRepo.findEventsByDate(date);
         for(Event e: events){
             EventInfo event = getEventInfo(e.getEventId());
             eventInfos.add(event);

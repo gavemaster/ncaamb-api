@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -24,19 +27,23 @@ public class Event {
     @Basic
     @Column(name = "event_short_name", length = 255)
     private String eventShortName;
-    @Basic
-    @Column(name = "event_date")
+
     @Temporal(TemporalType.DATE)
-    private Timestamp eventDate;
-    @Basic
+    @Column(name = "event_date")
+    private Date eventDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "event_time")
     private Timestamp eventTime;
+
     @Basic
     @Column(name = "event_venue_id")
     private Integer eventVenueId;
+
     @Basic
     @Column(name = "home_team_college_id", nullable = false)
     private int homeTeamCollegeId;
+
     @Basic
     @Column(name = "away_team_college_id", nullable = false)
     private int awayTeamCollegeId;
@@ -48,6 +55,7 @@ public class Event {
     private Integer awayTeamScore;
 
     @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_updated")
     private Timestamp lastUpdated;
     @Basic
@@ -75,6 +83,15 @@ public class Event {
     private Team awayTeam;
 
 
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private EventDetails eventDetails;
+
+    @ManyToOne
+    @JoinColumn(name="event_venue_id", referencedColumnName = "venue_id", insertable = false, updatable = false)
+    private Venue venue;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<PlayerBoxScore> playerBoxScores = new ArrayList<>();
 
 
 

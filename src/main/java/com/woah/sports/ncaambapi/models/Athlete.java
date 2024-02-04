@@ -60,4 +60,7 @@ public class Athlete {
     @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
     private List<EventRoster> eventRosters = new ArrayList<>();
 
+    @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+    private List<PlayerBoxScore> playerBoxScores = new ArrayList<>();
+
 }
